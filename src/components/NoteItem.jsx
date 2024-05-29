@@ -42,6 +42,12 @@ const PinButton = styled(IconButton)(({ theme, isPinned }) => ({
   },
 }));
 
+function LimitedLengthTypography({ content, ...props }) {
+  let limitedContent =
+    content.length < 603 ? content : content.substr(0, 500) + "...";
+  return <Typography {...props}>{limitedContent}</Typography>;
+}
+
 export default function NoteItem({ note }) {
   const { pinNote, deleteNote } = useNoteStore();
 
@@ -65,9 +71,11 @@ export default function NoteItem({ note }) {
         <Typography gutterBottom variant="h5" component="div">
           {note.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {note.content}
-        </Typography>
+        <LimitedLengthTypography
+          variant="body2"
+          color="text.secondary"
+          content={note.content}
+        />
       </CardContent>
       <Actions className="actions">
         <IconButton color="primary" size="small">
